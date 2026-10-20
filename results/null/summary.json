@@ -1,0 +1,18 @@
+{
+  "label": "null",
+  "bug_prs": 100,
+  "clean_prs": 40,
+  "detection_rate": 0.0,
+  "precision": 0.0,
+  "false_comments_per_pr": 0.0,
+  "false_comments_per_clean_pr": 0.0,
+  "verified_fix_rate": 0.0,
+  "correct_fix_rate": 0.0,
+  "rejected_patches": 0,
+  "dropped_model_claims": 0,
+  "llm_calls": 140,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "mean_seconds_per_pr": 0.0102,
+  "errors": 0
+}

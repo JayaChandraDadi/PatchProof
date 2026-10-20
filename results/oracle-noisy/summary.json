@@ -1,0 +1,18 @@
+{
+  "label": "oracle-noisy",
+  "bug_prs": 100,
+  "clean_prs": 40,
+  "detection_rate": 1.0,
+  "precision": 1.0,
+  "false_comments_per_pr": 0.0,
+  "false_comments_per_clean_pr": 0.0,
+  "verified_fix_rate": 1.0,
+  "correct_fix_rate": 1.0,
+  "rejected_patches": 100,
+  "dropped_model_claims": 280,
+  "llm_calls": 340,
+  "prompt_tokens": 0,
+  "completion_tokens": 0,
+  "mean_seconds_per_pr": 2.3903,
+  "errors": 0
+}
