@@ -1,0 +1,33 @@
+# Copy to .github/workflows/patchproof-review.yml in the repository you want reviewed.
+# Needs an OpenAI-compatible endpoint (a hosted provider, or a vLLM / Ollama server you run).
+name: PatchProof review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install your project's test dependencies (adjust for your project)
+        run: pip install -e ".[dev]"
+      - name: Install PatchProof
+        run: pip install "git+https://github.com/JayaChandraDadi/patchproof"
+      - name: Review and post comments
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PATCHPROOF_BASE_URL: ${{ secrets.PATCHPROOF_BASE_URL }}
+          PATCHPROOF_API_KEY: ${{ secrets.PATCHPROOF_API_KEY }}
+          PATCHPROOF_MODEL: ${{ vars.PATCHPROOF_MODEL }}
+        run: patchproof pr "${{ github.repository }}#${{ github.event.pull_request.number }}" --post

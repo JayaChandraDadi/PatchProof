@@ -1,0 +1,28 @@
+# Optional per-repository settings. Without this file PatchProof detects pytest, ruff and mypy.
+min_confidence = 0.5
+max_comments = 6
+max_fix_attempts = 3
+max_fix_lines = 40
+prompt_variant = "checklist"
+
+[[check]]
+name = "tests"
+kind = "pytest"
+command = "{python} -m pytest -q tests"
+timeout = 600
+
+[[check]]
+name = "lint"
+kind = "ruff"
+command = "{python} -m ruff check src"
+
+[[check]]
+name = "types"
+kind = "mypy"
+command = "{python} -m mypy src"
+
+[sandbox]
+backend = "docker"            # "local" runs in a temp copy; "docker" adds no-network isolation
+image = "my-project-dev:latest"
+memory = "2g"
+cpus = "2"
