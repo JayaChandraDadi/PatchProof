@@ -108,8 +108,11 @@ class DockerRunner:
 
     def command_line(self, workdir: Path, command: str) -> list[str]:
         cmd = command.replace("{python}", "python")
+        # Run as the host user so the container can write into the mounted copy even
+        # with every capability dropped.
+        user = ["--user", f"{os.getuid()}:{os.getgid()}"] if hasattr(os, "getuid") else []
         return [
-            "docker", "run", "--rm", "--network", "none",
+            "docker", "run", "--rm", "--network", "none", *user,
             "--memory", self.memory, "--cpus", self.cpus, "--pids-limit", "256",
             "--security-opt", "no-new-privileges", "--cap-drop", "ALL",
             "-e", "PYTHONDONTWRITEBYTECODE=1", "-e", "PYTHONPATH=/work/src:/work", "-e", "HOME=/work",

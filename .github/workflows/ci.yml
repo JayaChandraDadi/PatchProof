@@ -19,7 +19,11 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: ruff check src tests
       - run: mypy src
-      - run: pytest -q
+      - run: pytest -q -rfE 2>&1 | tee pytest-output.txt; exit ${PIPESTATUS[0]}
+        shell: bash
+      - name: Report failing tests as annotations
+        if: failure()
+        run: grep -E "^(FAILED|ERROR)" pytest-output.txt | sed 's/^/::error::/' || true
 
   pipeline-benchmark:
     # The scripted reviewers check the pipeline itself on all 140 PRs: anchoring,
